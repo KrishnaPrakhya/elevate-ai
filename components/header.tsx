@@ -1,13 +1,6 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { Button } from "./ui/button";
 import {
   ChevronDown,
@@ -21,12 +14,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+// Import the ThemeToggle component at the top
+import { ThemeToggle } from "./theme-toggle";
 
-interface Props {}
+type Props = {};
 
 function Header(props: Props) {
   const {} = props;
@@ -100,6 +93,9 @@ function Header(props: Props) {
           </div>
         </div>
       </nav>
+      <div className="flex items-center pr-5">
+        <ThemeToggle />
+      </div>
       <div>
         <SignedOut>
           <SignInButton>

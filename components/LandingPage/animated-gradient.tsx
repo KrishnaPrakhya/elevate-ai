@@ -62,8 +62,19 @@ export default function AnimatedGradient() {
     function draw() {
       ctx?.clearRect(0, 0, width, height);
 
+      // Check if we're in dark mode
+      const isDarkMode = document.documentElement.classList.contains("dark");
+
       // Draw each circle
       circles.forEach((circle) => {
+        // Adjust opacity for dark mode
+        const color = circle.color;
+        const darkModeColor = color.replace(
+          /rgba$$(\d+), (\d+), (\d+), ([\d.]+)$$/,
+          (_, r, g, b, a) =>
+            `rgba(${r}, ${g}, ${b}, ${Number.parseFloat(a) * 1.5})`
+        );
+
         const gradient = ctx?.createRadialGradient(
           circle.x,
           circle.y,
@@ -72,8 +83,9 @@ export default function AnimatedGradient() {
           circle.y,
           circle.radius
         );
+
         if (gradient) {
-          gradient.addColorStop(0, circle.color);
+          gradient.addColorStop(0, isDarkMode ? darkModeColor : color);
           gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
         }
 

@@ -35,7 +35,11 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const sectionVideoRef = useRef(null);
 
+  const scrollToSection = (ref: any) => {
+    ref.current.scrollIntoView({ behaviour: "smooth" });
+  };
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -80,18 +84,21 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
         {/* Hero Section with animated gradient background */}
-        <section className="relative overflow-hidden" ref={heroRef}>
+        <section
+          className="relative overflow-hidden dark:bg-background/50"
+          ref={heroRef}
+        >
           <AnimatedGradient />
 
           {/* Decorative elements */}
-          <div className="absolute top-20 left-10 w-24 h-24 rounded-full bg-primary/10 blur-xl"></div>
-          <div className="absolute bottom-40 right-10 w-32 h-32 rounded-full bg-primary/10 blur-xl"></div>
-          <div className="absolute top-1/3 right-1/4 w-8 h-8 rounded-full bg-primary/30 blur-sm"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-6 h-6 rounded-full bg-primary/20 blur-sm"></div>
+          <div className="absolute top-20 left-10 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/5 blur-xl"></div>
+          <div className="absolute bottom-40 right-10 w-32 h-32 rounded-full bg-primary/10 dark:bg-primary/5 blur-xl"></div>
+          <div className="absolute top-1/3 right-1/4 w-8 h-8 rounded-full bg-primary/30 dark:bg-primary/20 blur-sm"></div>
+          <div className="absolute bottom-1/4 left-1/3 w-6 h-6 rounded-full bg-primary/20 dark:bg-primary/10 blur-sm"></div>
 
           {/* Floating shapes */}
           <motion.div
-            className="absolute top-40 right-[15%] w-12 h-12 rounded-lg rotate-12 border border-primary/20 hidden lg:block"
+            className="absolute top-40 right-[15%] w-12 h-12 rounded-lg rotate-12 border border-primary/20 dark:border-primary/10 hidden lg:block"
             initial={{ y: 0, rotate: 12 }}
             animate={{
               y: [0, -15, 0],
@@ -160,6 +167,7 @@ export default function Home() {
                     <span className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300"></span>
                   </Button>
                   <Button
+                    onClick={() => scrollToSection(sectionVideoRef)}
                     size="lg"
                     variant="outline"
                     className="group relative overflow-hidden"
@@ -273,15 +281,18 @@ export default function Home() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-16 relative" ref={statsRef}>
+        <section
+          className="py-16 relative dark:bg-background/50"
+          ref={statsRef}
+        >
           {/* Decorative elements */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/2 right-0 w-60 h-60 bg-primary/5 rounded-full blur-3xl"></div>
+            <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 right-0 w-60 h-60 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl"></div>
 
             {/* Grid pattern */}
             <div
-              className="absolute inset-0 opacity-[0.015]"
+              className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
               style={{
                 backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
                 backgroundSize: "40px 40px",
@@ -688,47 +699,18 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true, margin: "-100px" }}
+              ref={sectionVideoRef}
             >
-              <div className="aspect-video relative">
-                <img
-                  src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Video Testimonial"
+              <div className="aspect-video relative ">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center cursor-pointer hover:bg-primary transition-colors shadow-lg">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M8 5V19L19 12L8 5Z" fill="white" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div className="p-8 md:p-10">
-                <div className="flex items-center gap-4 mb-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
-                    alt="David Wilson"
-                    className="w-16 h-16 rounded-full object-cover border-2 border-primary/10"
-                  />
-                  <div>
-                    <h3 className="text-xl font-bold">David Wilson</h3>
-                    <p className="text-muted-foreground">
-                      Senior Product Manager at Apple
-                    </p>
-                  </div>
-                </div>
-                <blockquote className="text-lg md:text-xl italic">
-                  "After struggling with career direction for years, Career AI
-                  provided clarity and actionable steps. The salary negotiation
-                  coaching alone helped me secure a 22% increase. This platform
-                  is worth every penny."
-                </blockquote>
+                >
+                  <source src="elevate-ai-showcase.mp4" type="video/mp4" />
+                </video>
               </div>
             </motion.div>
           </div>
@@ -858,10 +840,13 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-20 md:py-32 relative">
+        <section
+          id="faq"
+          className="py-20 md:py-32 relative dark:bg-background/50"
+        >
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl -z-10"></div>
 
           <div className="container px-4 md:px-6 relative z-10">
             <motion.div
@@ -901,10 +886,10 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 md:py-32 bg-primary/5 relative overflow-hidden">
+        <section className="py-20 md:py-32 bg-primary/5 dark:bg-primary/10 relative overflow-hidden">
           {/* Background decoration */}
-          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/10 dark:bg-primary/15 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[600px] h-[600px] bg-primary/10 dark:bg-primary/15 rounded-full blur-3xl"></div>
 
           {/* Animated shapes */}
           <motion.div
@@ -952,8 +937,11 @@ export default function Home() {
                   Join thousands of professionals who have accelerated their
                   career growth with Career AI.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md items-center justify-center">
-                  <Button className="shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all group relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md text-center justify-center items-center">
+                  <Button
+                    size="lg"
+                    className=" shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all group relative overflow-hidden"
+                  >
                     <span className="relative z-10">Start Your Free Trial</span>
                     <span className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300"></span>
                   </Button>
