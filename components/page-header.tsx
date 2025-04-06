@@ -47,11 +47,7 @@ export function PageHeader({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={cn(
-        "space-y-2 pb-2 overflow-visible",
-        alignClass[align],
-        className
-      )}
+      className={cn("space-y-2 overflow-visible", alignClass[align], className)}
     >
       <h1
         className={cn(
