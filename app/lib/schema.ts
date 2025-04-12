@@ -1,3 +1,4 @@
+import { Description } from "@radix-ui/react-dialog"
 import { z } from "zod"
 
 export const onBoardingSchema = z.object({
@@ -22,3 +23,37 @@ export const onBoardingSchema = z.object({
   ),
 })
 
+
+export const contactSchema=z.object({
+  email:z.string().email("Invalid Email Adress"),
+  mobile:z.string().optional(),
+  linkedin:z.string().optional(),
+  twitter:z.string().optional()
+})
+
+export const entrySchema=z.object({
+  title:z.string().min(1,"Title is Required"),
+  company:z.string().min(1,"Organization is Required"),
+  startDate:z.string().min(1,"Start Date is Required"),
+  endDate:z.string().optional(),
+  description:z.string().min(1,"Please Enter Some Desciption"),
+  current:z.boolean().default(false),
+})
+.refine(
+  (data) => {
+    return data.current || (!!data.endDate && data.endDate.trim().length > 0);
+  },
+  {
+    message: "End date is required unless this is your current position",
+    path: ["endDate"],
+  }
+)
+
+export const resumeSchema=z.object({
+  contactInfo:contactSchema,
+  summary:z.string().min(1,"Professional Summary is Required"),
+  skills:z.string().min(1,"Skills are required"),
+  experience:z.array(entrySchema),
+  education:z.array(entrySchema),
+  projects:z.array(entrySchema)
+})
