@@ -57,3 +57,10 @@ export const resumeSchema=z.object({
   education:z.array(entrySchema),
   projects:z.array(entrySchema)
 })
+
+export const coverLetterSchema=z.object({
+  companyName:z.string().min(1,"Company Name is Required"),
+  jobTitle:z.string().min(1,"Job Title is Required"),
+  jobDescription:z.string().min(1,"Job Description is Required")
+})
+export type TCoverLetterSchema= z.infer<typeof coverLetterSchema>;

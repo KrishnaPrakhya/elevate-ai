@@ -1,5 +1,6 @@
 "use server"
 import { db } from "@/lib/prisma";
+import { CACHE_TTL, getCachedData, invalidateCache } from "@/lib/redis";
 import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { revalidatePath } from "next/cache";
@@ -38,6 +39,7 @@ try {
       content,
     }
   })
+  await invalidateCache(`resume:${user.id}`)
   revalidatePath("/resume");
   return resume;
 } catch (error) {
@@ -57,11 +59,16 @@ export async function getResume() {
     }
   })
   if(!user) throw new Error("User Not Found");
-  return await db.resume.findUnique({
-    where:{
-      userId:user.id
-    }
-  })
+  getCachedData(
+    `resume:${user.id}`,
+    async()=>{
+      return await db.resume.findUnique({
+        where:{
+          userId:user.id
+        }
+      })
+    },CACHE_TTL.MEDIUM
+  )
 }
 
 interface props{
@@ -82,7 +89,11 @@ export async function improveWithAI(content:props) {
   });
 
   if (!user) throw new Error("User not found");
-  console.log(type);
+  const cacheKey = `improve:${user.id}:${type}:${Buffer.from(current).toString("base64").substring(0, 20)}`
+  console.log(cacheKey);
+  return getCachedData(
+    cacheKey,
+    async () => {
   let prompt="";
   if(type==="skills"){
     prompt = `
@@ -126,6 +137,7 @@ export async function improveWithAI(content:props) {
     console.error("Error improving content:", error);
     throw new Error("Failed to improve content");
   }
+},CACHE_TTL.MEDIUM)
 }
 
 export async function analyzeResume(resumeContent: string) {
@@ -137,8 +149,11 @@ export async function analyzeResume(resumeContent: string) {
   })
 
   if (!user) throw new Error("User not found")
-
-      console.log(resumeContent);
+    const contentHash = Buffer.from(resumeContent).toString("base64").substring(0, 20)
+  const cacheKey = `analyze:${user.id}:${contentHash}`
+      return getCachedData(
+        cacheKey,
+        async () => {
       const prompt = `
         As an expert resume reviewer, analyze the following resume for a ${user.industry} professional.
         Provide a comprehensive analysis with scores and feedback.
@@ -185,7 +200,8 @@ export async function analyzeResume(resumeContent: string) {
         console.error("Error analyzing resume:", error)
         throw new Error("Failed to analyze resume")
       }
-    }
+    },CACHE_TTL.MEDIUM)
+  }
   
 
 
@@ -205,7 +221,12 @@ export async function tailorToJob(data: TailorProps) {
 
   if (!user) throw new Error("User not found")
 
-
+    const resumeHash = Buffer.from(resumeContent).toString("base64").substring(0, 10)
+    const jobHash = Buffer.from(jobDescription).toString("base64").substring(0, 10)
+    const cacheKey = `tailor:${user.id}:${resumeHash}:${jobHash}`
+    return getCachedData(
+      cacheKey,
+      async () => {
       const prompt = `
         As an expert resume writer, tailor the following resume to match the provided job description.
         Identify key skills and requirements from the job description and modify the resume to highlight relevant experience.
@@ -241,4 +262,6 @@ export async function tailorToJob(data: TailorProps) {
         console.error("Error tailoring resume:", error)
         throw new Error("Failed to tailor resume")
       }
-    }
+    },
+  CACHE_TTL.MEDIUM)
+  }

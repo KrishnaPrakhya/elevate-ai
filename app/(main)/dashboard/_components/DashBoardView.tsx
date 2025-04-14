@@ -218,7 +218,7 @@ function DashBoardView(props: Props) {
           </div>
         </div>
 
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <Button variant="outline" size="sm" className="gap-1">
             <Clock className="h-4 w-4" />
             <span>Historical Data</span>
@@ -227,7 +227,7 @@ function DashBoardView(props: Props) {
             <ArrowUpRight className="h-4 w-4" />
             <span>Export Report</span>
           </Button>
-        </div>
+        </div> */}
       </motion.div>
 
       <Tabs
@@ -448,10 +448,10 @@ function DashBoardView(props: Props) {
                       thousands)
                     </CardDescription>
                   </div>
-                  <Button variant="outline" size="sm" className="gap-1">
+                  {/* <Button variant="outline" size="sm" className="gap-1">
                     <ArrowUpRight className="h-4 w-4" />
                     <span>Full Report</span>
-                  </Button>
+                  </Button> */}
                 </div>
               </CardHeader>
 

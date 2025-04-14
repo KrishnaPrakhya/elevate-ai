@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
-import { Damion, Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
 import { neobrutalism } from "@clerk/themes";

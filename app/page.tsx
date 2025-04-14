@@ -30,17 +30,19 @@ import AnimatedGradient from "@/components/LandingPage/animated-gradient";
 import { useMobile } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import { redirect } from "next/navigation";
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isMobile = useMobile();
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const sectionVideoRef = useRef(null);
-  const scrollToSection = (ref: any) => {
-    ref.current.scrollIntoView({ behaviour: "smooth" });
+  const sectionVideoRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
   };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -80,6 +82,7 @@ export default function Home() {
       },
     },
   };
+
   function FeatureCardVideo({
     icon: Icon,
     title,
