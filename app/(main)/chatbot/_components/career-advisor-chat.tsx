@@ -16,7 +16,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Briefcase,
-  FileText,
   Sparkles,
   Send,
   Loader2,
@@ -24,6 +23,7 @@ import {
   BarChart,
   User,
   Search,
+  FileText,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
