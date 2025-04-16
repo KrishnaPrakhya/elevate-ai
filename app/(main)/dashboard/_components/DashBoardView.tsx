@@ -70,8 +70,8 @@ type IndustryInsights = {
   marketOutLook: string;
   keyTrends: string[];
   recommendedSkills: string[];
-  lastUpdated: any;
-  nextUpdated: any;
+  lastUpdated: Date | string;
+  nextUpdated: Date | string;
 };
 
 interface Props {
@@ -82,13 +82,15 @@ function DashBoardView(props: Props) {
   const { insights } = props;
   const [activeTab, setActiveTab] = useState("overview");
   console.log(insights);
-  const salaryData = insights.salaryRanges.map((range: any, index: number) => ({
-    name: range.role,
-    min: range.min / 1000,
-    max: range.max / 1000,
-    median: range.median / 1000,
-    color: getColorByIndex(index),
-  }));
+  const salaryData = insights.salaryRanges.map(
+    (range: salaryInsights, index: number) => ({
+      name: range.role,
+      min: range.min / 1000,
+      max: range.max / 1000,
+      median: range.median / 1000,
+      color: getColorByIndex(index),
+    })
+  );
 
   function getColorByIndex(index: number) {
     const colors = ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f97316"];

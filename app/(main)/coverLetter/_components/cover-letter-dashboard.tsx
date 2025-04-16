@@ -60,7 +60,7 @@ export default function CoverLetterDashboard({
     setShowCreateForm(true);
   };
 
-  const handleViewLetter = (letter: any) => {
+  const handleViewLetter = (letter: coverLetterProps) => {
     setSelectedLetter(letter);
   };
 
@@ -75,6 +75,7 @@ export default function CoverLetterDashboard({
       setLetterToDelete(null);
       router.refresh();
     } catch (error) {
+      console.log(error);
       toast.error("Failed to delete cover letter");
     } finally {
       setIsDeleting(false);
