@@ -224,7 +224,7 @@ export default function CoverLetterEditor({
     }
   };
 
-  const applySuggestion = (suggestion: any) => {
+  const applySuggestion = (suggestion: suggestionsProp) => {
     if (suggestion.type === "introduction") {
       const introRegex = `/^(.*?\n\n)/`;
       setCoverLetterContent((prev: string) =>
@@ -513,7 +513,7 @@ export default function CoverLetterEditor({
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-4">
-                  {aiSuggestions.map((suggestion, index) => (
+                  {aiSuggestions.map((suggestion: suggestionsProp, index) => (
                     <AiSuggestionCard
                       key={index}
                       suggestion={suggestion}
@@ -606,7 +606,16 @@ export default function CoverLetterEditor({
               AI-powered feedback and suggestions for your cover letter
             </DialogDescription>
           </DialogHeader>
-          {analysisResult && <CoverLetterScoreCard score={analysisResult} />}
+          {analysisResult && (
+            <CoverLetterScoreCard
+              score={{
+                ...analysisResult,
+                suggestions: analysisResult.suggestions.map(
+                  (suggestion) => suggestion.content
+                ),
+              }}
+            />
+          )}
         </DialogContent>
       </Dialog>
 

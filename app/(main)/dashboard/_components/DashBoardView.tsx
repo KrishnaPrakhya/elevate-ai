@@ -411,7 +411,7 @@ function DashBoardView(props: Props) {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-1.5">
-                    {insights.topSkills.map((skill, index) => (
+                    {insights.topSkills.map((skill) => (
                       <Badge
                         key={skill}
                         variant="secondary"

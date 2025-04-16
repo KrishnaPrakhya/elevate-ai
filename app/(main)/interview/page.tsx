@@ -7,11 +7,7 @@ import StatsCards from "./_components/stats-cards";
 import { ArrowRight, Brain, Sparkles } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 
-type Props = {};
-
-// This is a server component, so it can be async
-async function Page(props: Props) {
-  const {} = props;
+async function Page() {
   const assessments = await getAssessments();
 
   return (
