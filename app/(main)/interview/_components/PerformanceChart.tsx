@@ -129,7 +129,7 @@ function PerformanceChart(props: assessmentsProps) {
                 tickFormatter={(value) => `${value}%`}
               />
               <Tooltip
-                content={({ active, payload, label }: CustomTooltipProps) => {
+                content={({ active, payload }: CustomTooltipProps) => {
                   if (active && payload && payload.length > 0) {
                     return (
                       <div className="bg-background border rounded-lg p-3 shadow-lg">

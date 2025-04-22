@@ -31,13 +31,13 @@ import { motion } from "framer-motion";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  const [_, setScrolled] = useState(false);
+  const [scroll, setScrolled] = useState(false);
   const isMobile = useMobile();
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const sectionVideoRef = useRef<HTMLDivElement>(null);
-
+  console.log(scroll);
   const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };

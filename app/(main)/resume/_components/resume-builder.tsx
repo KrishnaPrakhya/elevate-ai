@@ -70,7 +70,7 @@ import { ResumeTemplateSelector } from "./resume-template-selector";
 import { JobDescriptionMatcher } from "./job-description-matcher";
 
 interface Props {
-  initialContent: any;
+  initialContent: string;
 }
 interface ContactInfo {
   email: string;
@@ -218,7 +218,7 @@ function ResumeBuilder(props: Props) {
       // Update experience descriptions if provided
       if (tailorResult.experience && tailorResult.experience.length > 0) {
         const currentExperience = [...formValues.experience];
-        tailorResult.experience.forEach((exp: any, index: number) => {
+        tailorResult.experience.forEach((exp: ResumeEntry, index: number) => {
           if (currentExperience[index]) {
             currentExperience[index].description = exp.description;
           }
@@ -378,7 +378,7 @@ function ResumeBuilder(props: Props) {
     }
   };
 
-  const onSubmit = async (data: ResumeFormValues) => {
+  const onSubmit = async () => {
     try {
       const formattedContent = previewContent
         .replace(/\n/g, "\n")
@@ -819,7 +819,7 @@ function ResumeBuilder(props: Props) {
                   <div className="border rounded-lg overflow-hidden">
                     <MDEditor
                       value={previewContent}
-                      onChange={setPreviewContent}
+                      onChange={(value) => setPreviewContent(value ?? "")}
                       height={800}
                       preview={resumeMode}
                     />
