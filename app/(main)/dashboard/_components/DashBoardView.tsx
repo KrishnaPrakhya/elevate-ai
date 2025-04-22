@@ -60,7 +60,7 @@ type salaryInsights = {
   location: string;
 };
 
-type IndustryInsights = {
+export type IndustryInsights = {
   id: string;
   industry: string;
   salaryRanges: salaryInsights[];
