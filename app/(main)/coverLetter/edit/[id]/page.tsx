@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import CoverLetterEditor from "../../_components/cover-letter-editor";
 
-interface PageProps {
+type PageProps = {
   params: {
     id: string;
   };
-}
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 export default async function EditCoverLetterPage({ params }: PageProps) {
   const { id } = params;
