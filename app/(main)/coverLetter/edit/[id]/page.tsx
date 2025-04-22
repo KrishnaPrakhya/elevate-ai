@@ -1,14 +1,15 @@
+import React from "react";
 import { getCoverLetterById } from "@/actions/coverLetter";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import CoverLetterEditor from "../../_components/cover-letter-editor";
 
-type PageProps = {
+interface PageProps {
   params: {
     id: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+  searchParams?: Record<string, string | string[] | undefined>;
+}
 
 export default async function EditCoverLetterPage({ params }: PageProps) {
   const { id } = params;
