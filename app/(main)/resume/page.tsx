@@ -2,7 +2,6 @@ import { PageHeader } from "@/components/page-header";
 import ResumeBuilder from "./_components/resume-builder";
 import { getResume } from "@/actions/resume";
 
-
 async function Page() {
   const resume = await getResume();
   return (
@@ -14,7 +13,7 @@ async function Page() {
         size="lg"
         className="mb-8"
       />
-      <ResumeBuilder initialContent={resume?.content} />
+      <ResumeBuilder initialContent={resume?.content || ""} />
     </div>
   );
 }

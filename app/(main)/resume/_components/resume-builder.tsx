@@ -927,6 +927,9 @@ function ResumeBuilder(props: Props) {
                     feedback: "", // Add appropriate feedback if available
                   })
                 ),
+                suggestions: resumeScore.suggestions.map(
+                  (suggestion) => suggestion.content
+                ),
               }}
             />
           ) : (
