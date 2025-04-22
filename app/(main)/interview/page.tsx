@@ -32,15 +32,17 @@ async function Page() {
   // Transform the raw data to ensure correct typing
   const transformedData = rawData.map((assessment) => ({
     ...assessment,
-    questions: assessment.questions.map((q: any) => ({
-      id: q.id,
-      question: q.question,
-      options: q.options,
-      correctAnswer: q.correctAnswer,
-      userAnswer: q.userAnswer || "",
-      explanation: q.explanation || "",
-      isCorrect: q.isCorrect || false,
-    })),
+    questions: assessment.questions
+      .filter((q): q is Partial<QuizQuestion> => q !== null)
+      .map((q) => ({
+        id: q.id ?? "",
+        question: q.question ?? "",
+        options: q.options ?? [],
+        correctAnswer: q.correctAnswer ?? "",
+        userAnswer: q.userAnswer ?? "",
+        explanation: q.explanation ?? "",
+        isCorrect: q.isCorrect ?? false,
+      })),
   }));
   const assessments: assessmentsProps = { assessments: transformedData };
 
