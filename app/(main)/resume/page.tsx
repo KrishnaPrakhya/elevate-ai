@@ -2,10 +2,8 @@ import { PageHeader } from "@/components/page-header";
 import ResumeBuilder from "./_components/resume-builder";
 import { getResume } from "@/actions/resume";
 
-type Props = {};
 
-async function Page(props: Props) {
-  const {} = props;
+async function Page() {
   const resume = await getResume();
   return (
     <div className="container mx-auto py-6 px-4">

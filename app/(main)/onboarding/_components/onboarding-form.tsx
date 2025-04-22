@@ -34,9 +34,18 @@ interface Props {
   industries: Industries[];
 }
 
+interface OnboardingFormValues {
+  industry: string;
+  subIndustry: string;
+  experience: number;
+  skills?: string[]; // Made optional
+  bio?: string;
+}
 function OnboardingForm(props: Props) {
   const { industries } = props;
-  const [selectedIndustry, setSelectedIndustry] = useState<any>(null);
+  const [selectedIndustry, setSelectedIndustry] = useState<Industries | null>(
+    null
+  );
   const router = useRouter();
   const {
     register,
@@ -55,7 +64,7 @@ function OnboardingForm(props: Props) {
     fn: updateUserFn,
     data: updateResult,
   } = useFetch(updateUser);
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: OnboardingFormValues) => {
     try {
       const formattedIndustry = `${values.industry}-${values.subIndustry
         .toLowerCase()
@@ -140,7 +149,7 @@ function OnboardingForm(props: Props) {
                 onValueChange={(value) => {
                   setValue("industry", value);
                   setSelectedIndustry(
-                    industries.find((ind) => ind.id === value)
+                    industries.find((ind) => ind.id === value) || null
                   );
                   setValue("subIndustry", "");
                 }}
@@ -185,7 +194,7 @@ function OnboardingForm(props: Props) {
                     <SelectValue placeholder="Select a Specialization" />
                   </SelectTrigger>
                   <SelectContent>
-                    {selectedIndustry?.subIndustries.map((item: any) => (
+                    {selectedIndustry?.subIndustries.map((item: string) => (
                       <SelectItem key={item} value={item}>
                         {item}
                       </SelectItem>
