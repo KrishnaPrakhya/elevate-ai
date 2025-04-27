@@ -4,7 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { generateAIinsights } from "./dashboard";
 import { getCachedData,invalidateCachePattern,CACHE_TTL } from "@/lib/redis";
-
+import { revalidatePath } from "next/cache";
 
 interface UpdateUserData {
   industry: string;
@@ -84,6 +84,7 @@ export async function updateUser(data: UpdateUserData) {
       timeout: 10000
     });
     await invalidateCachePattern(`*:${user.id}*`)
+    revalidatePath("/dashboard")
     return {success:true,...result};
   } catch (error) {
     console.error("Failed to update user:", error);
@@ -95,9 +96,6 @@ export async function updateUser(data: UpdateUserData) {
 export async function getOnboardingStatus(){
   const {userId}=await auth();
   if(!userId) throw new Error("Unauthorized");
-  return getCachedData(
-    `onboarding:status:${userId}`,
-    async () => {
   try {
     const user=await db.user.findUnique({
       where:{
@@ -114,5 +112,4 @@ export async function getOnboardingStatus(){
     throw new Error("Error Fetching Onboarding Status")
     
   }
-},CACHE_TTL.SHORT)
 }

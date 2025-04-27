@@ -76,15 +76,11 @@ function OnboardingForm(props: Props) {
   };
 
   useEffect(() => {
-    console.log(updateLoading);
-    console.log(updateResult);
     if (updateResult?.success && !updateLoading) {
-      console.log("hiii");
       toast.success("Profile completed Successfully");
       router.push("/dashboard");
-      router.refresh();
     }
-  }, [updateResult, updateLoading]);
+  }, [updateResult, updateLoading, router]);
   const formVariants = {
     hidden: { opacity: 0 },
     visible: {

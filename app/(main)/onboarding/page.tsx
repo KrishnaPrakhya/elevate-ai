@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 async function Page() {
   const { isOnBoardingStatus } = await getOnboardingStatus();
+  console.log(isOnBoardingStatus);
   if (isOnBoardingStatus) redirect("/dashboard");
   return (
     <main>
