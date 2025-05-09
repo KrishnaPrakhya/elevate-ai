@@ -33,7 +33,6 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
-import JobSearchForm from "./job-search-form";
 import CareerPlanGenerator from "./career-plan-generator";
 
 interface Message {
@@ -69,9 +68,9 @@ export default function CareerAdvisorChat({
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeView, setActiveView] = useState<
-    "chat" | "job" | "plan" | "profile"
-  >("chat");
+  const [activeView, setActiveView] = useState<"chat" | "plan" | "profile">(
+    "chat"
+  );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -179,14 +178,8 @@ export default function CareerAdvisorChat({
       setMessages((prev) => [...prev, assistantMessage]);
 
       // If the response has a specific category, suggest switching to that tool
-      if (category === "job") {
-        toast.info("Would you like to use the Job Search tool?", {
-          action: {
-            label: "Open",
-            onClick: () => setActiveView("job"),
-          },
-        });
-      } else if (category === "schedule") {
+
+      if (category === "schedule") {
         toast.info("Would you like to create a Career Plan?", {
           action: {
             label: "Open",
@@ -265,7 +258,6 @@ export default function CareerAdvisorChat({
           )}
           <h2 className="text-2xl font-bold">
             {activeView === "chat" && "Career Advisor"}
-            {activeView === "job" && "Job Search"}
             {activeView === "plan" && "Career Plan"}
             {activeView === "profile" && "Profile Analysis"}
           </h2>
@@ -282,10 +274,7 @@ export default function CareerAdvisorChat({
                 <MessageSquare className="h-4 w-4" />
                 <span>Chat</span>
               </TabsTrigger>
-              <TabsTrigger value="job" className="flex items-center gap-1">
-                <Briefcase className="h-4 w-4" />
-                <span>Jobs</span>
-              </TabsTrigger>
+
               <TabsTrigger value="plan" className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
                 <span>Plan</span>
@@ -301,13 +290,7 @@ export default function CareerAdvisorChat({
             >
               <MessageSquare className="h-4 w-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setActiveView("job")}
-            >
-              <Briefcase className="h-4 w-4" />
-            </Button>
+
             <Button
               variant="outline"
               size="icon"
@@ -428,8 +411,6 @@ export default function CareerAdvisorChat({
                             variant="outline"
                             className="text-xs flex items-center gap-1"
                             onClick={() => {
-                              if (message.category === "job")
-                                setActiveView("job");
                               if (message.category === "schedule")
                                 setActiveView("plan");
                               if (message.category === "analysis")
@@ -550,9 +531,6 @@ export default function CareerAdvisorChat({
       )}
 
       {/* Job Search View */}
-      {activeView === "job" && (
-        <JobSearchForm onBack={() => setActiveView("chat")} />
-      )}
 
       {/* Career Plan View */}
       {activeView === "plan" && (
