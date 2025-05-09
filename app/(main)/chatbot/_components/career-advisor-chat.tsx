@@ -266,7 +266,7 @@ export default function CareerAdvisorChat({
         <div className="flex gap-2">
           <Tabs
             value={activeView}
-            onValueChange={(v) => setActiveView(v as any)}
+            onValueChange={(v) => setActiveView(v as "chat" | "plan" | "profile")}
             className="hidden md:block"
           >
             <TabsList>
@@ -358,7 +358,7 @@ export default function CareerAdvisorChat({
                           <ReactMarkdown
                             className="prose dark:prose-invert prose-sm max-w-none"
                             components={{
-                              a: ({ node, ...props }) => (
+                              a: ({  ...props }) => (
                                 <a
                                   {...props}
                                   className="text-primary hover:underline"
@@ -366,34 +366,34 @@ export default function CareerAdvisorChat({
                                   rel="noopener noreferrer"
                                 />
                               ),
-                              ul: ({ node, ...props }) => (
+                              ul: ({  ...props }) => (
                                 <ul
                                   {...props}
                                   className="list-disc pl-6 my-2"
                                 />
                               ),
-                              ol: ({ node, ...props }) => (
+                              ol: ({  ...props }) => (
                                 <ol
                                   {...props}
                                   className="list-decimal pl-6 my-2"
                                 />
                               ),
-                              li: ({ node, ...props }) => (
+                              li: ({ ...props }) => (
                                 <li {...props} className="my-1" />
                               ),
-                              h3: ({ node, ...props }) => (
+                              h3: ({  ...props }) => (
                                 <h3
                                   {...props}
                                   className="text-base font-semibold mt-4 mb-2"
                                 />
                               ),
-                              h4: ({ node, ...props }) => (
+                              h4: ({  ...props }) => (
                                 <h4
                                   {...props}
                                   className="text-sm font-semibold mt-3 mb-1"
                                 />
                               ),
-                              p: ({ node, ...props }) => (
+                              p: ({  ...props }) => (
                                 <p {...props} className="my-2" />
                               ),
                             }}
