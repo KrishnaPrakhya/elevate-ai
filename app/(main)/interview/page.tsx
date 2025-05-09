@@ -1,8 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import InterviewQuiz from "./_components/interviewQuiz";
 import SubTopicQuiz from "./_components/subTopicQuiz";
+import { getTopTopics } from "@/actions/topicQuiz";
 
 async function Page() {
+  const Topics = await getTopTopics();
   return (
     <div className="container">
       <Tabs defaultValue="interviewQuiz" className="w-full min-h-screen">
@@ -14,7 +16,7 @@ async function Page() {
           <InterviewQuiz />
         </TabsContent>
         <TabsContent value="subtopicQuiz">
-          <SubTopicQuiz />
+          <SubTopicQuiz Topics={Topics} />
         </TabsContent>
       </Tabs>
     </div>

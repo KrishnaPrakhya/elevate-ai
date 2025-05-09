@@ -16,41 +16,47 @@ import { useWindowSize } from "@/hooks/use-window-size";
 import { generateTopicContent, generateTopicQuiz } from "@/actions/topicQuiz";
 import { QuizResponse } from "../types";
 
+interface Topics {
+  name: string;
+  subtopics: string[];
+}
+
 interface QuizFormProps {
   setQuizData: (data: QuizResponse) => void;
   setQuizStarted: (started: boolean) => void;
+  Topics: Topics[] | undefined;
 }
 
-const subtopics = {
-  Java: [
-    "Object-Oriented Programming",
-    "Collections Framework",
-    "Exception Handling",
-    "Multithreading",
-    "Java I/O",
-  ],
-  Python: [
-    "Data Structures",
-    "List Comprehensions",
-    "Decorators",
-    "File Handling",
-    "Modules and Packages",
-  ],
-  JavaScript: [
-    "ES6 Features",
-    "Promises & Async/Await",
-    "DOM Manipulation",
-    "Closures",
-    "Prototypal Inheritance",
-  ],
-  "Data Science": [
-    "Machine Learning Basics",
-    "Data Visualization",
-    "Statistical Analysis",
-    "Natural Language Processing",
-    "Neural Networks",
-  ],
-};
+// const subtopics = {
+//   Java: [
+//     "Object-Oriented Programming",
+//     "Collections Framework",
+//     "Exception Handling",
+//     "Multithreading",
+//     "Java I/O",
+//   ],
+//   Python: [
+//     "Data Structures",
+//     "List Comprehensions",
+//     "Decorators",
+//     "File Handling",
+//     "Modules and Packages",
+//   ],
+//   JavaScript: [
+//     "ES6 Features",
+//     "Promises & Async/Await",
+//     "DOM Manipulation",
+//     "Closures",
+//     "Prototypal Inheritance",
+//   ],
+//   "Data Science": [
+//     "Machine Learning Basics",
+//     "Data Visualization",
+//     "Statistical Analysis",
+//     "Natural Language Processing",
+//     "Neural Networks",
+//   ],
+// };
 
 const topicIcons = {
   Java: <Lightbulb className="w-6 h-6 text-orange-500" />,
@@ -62,13 +68,14 @@ const topicIcons = {
 export default function QuizForm({
   setQuizData,
   setQuizStarted,
+  Topics,
 }: QuizFormProps) {
   const [selectedSubtopics, setSelectedSubtopics] = useState<string[]>([]);
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
   const [content, setContent] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
-
+  console.log(Topics);
   const handleCheckboxChange = (subtopic: string) => {
     setSelectedSubtopics((prev) =>
       prev.includes(subtopic)
@@ -152,24 +159,26 @@ export default function QuizForm({
           animate={{ scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          Select Quiz Topics
+          Select Top Skills Quiz Topics
         </motion.h2>
 
         <div className="space-y-6">
-          {Object.entries(subtopics).map(([topic, subs], topicIndex) => (
+          {Topics?.map((topic, topicIndex) => (
             <motion.div
-              key={topic}
+              key={topic.name}
               className="mb-6 bg-gray-50 p-5 rounded-xl border border-gray-100"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: topicIndex * 0.1 }}
             >
               <div className="flex items-center gap-2 mb-4 border-b pb-2 border-gray-200">
-                {topicIcons[topic as keyof typeof topicIcons]}
-                <h3 className="text-xl font-semibold text-gray-800">{topic}</h3>
+                {/* {topicIcons[topic as keyof typeof topicIcons]} */}
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {topic.name}
+                </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {subs?.map((subtopic, subIndex) => (
+                {topic.subtopics?.map((subtopic, subIndex) => (
                   <motion.label
                     key={subtopic}
                     className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"

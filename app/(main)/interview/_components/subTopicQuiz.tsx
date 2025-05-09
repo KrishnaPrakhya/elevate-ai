@@ -7,10 +7,19 @@ import { QuizResponse } from "../types";
 import QuizForm from "./QuizForm";
 import QuizGame from "./QuizGame";
 
-export default function SubTopicQuiz() {
+interface Topics {
+  name: string;
+  subtopics: string[];
+}
+
+interface Props {
+  Topics: Topics[] | undefined;
+}
+
+export default function SubTopicQuiz(props: Props) {
+  const { Topics } = props;
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizData, setQuizData] = useState<QuizResponse>([]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
@@ -36,26 +45,28 @@ export default function SubTopicQuiz() {
             transition={{ delay: 0.3 }}
           >
             <div className="flex gap-2">
-              {["Python", "Java", "JavaScript", "Data Science"].map(
-                (topic, i) => (
-                  <motion.div
-                    key={topic}
-                    className="px-3 py-1 bg-white rounded-full text-xs font-medium text-gray-700 shadow-sm border border-gray-200"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                    whileHover={{ scale: 1.05, backgroundColor: "#f3f4f6" }}
-                  >
-                    {topic}
-                  </motion.div>
-                )
-              )}
+              {Topics?.map((topic, i) => (
+                <motion.div
+                  key={topic.name}
+                  className="px-3 py-1 bg-white rounded-full text-xs font-medium text-gray-700 shadow-sm border border-gray-200"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + i * 0.1 }}
+                  whileHover={{ scale: 1.05, backgroundColor: "#f3f4f6" }}
+                >
+                  {topic.name}
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </motion.div>
 
         {!quizStarted ? (
-          <QuizForm setQuizData={setQuizData} setQuizStarted={setQuizStarted} />
+          <QuizForm
+            Topics={Topics}
+            setQuizData={setQuizData}
+            setQuizStarted={setQuizStarted}
+          />
         ) : (
           <QuizGame quizData={quizData} setQuizStarted={setQuizStarted} />
         )}
