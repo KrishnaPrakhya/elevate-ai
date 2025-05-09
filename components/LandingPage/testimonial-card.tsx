@@ -43,7 +43,7 @@ export default function TestimonialCard({
       <div className="flex items-center gap-4">
         <Image
           height={12}
-          width={12}
+          width={100}
           alt={name}
           className="rounded-full h-12 w-12 object-cover border-2 border-primary/10 group-hover:border-primary/20 transition-colors"
           src={avatarSrc || "/placeholder.svg"}
@@ -56,7 +56,7 @@ export default function TestimonialCard({
           <div className="ml-auto">
             <Image
               height={6}
-              width={10}
+              width={100}
               alt={company}
               className="h-6 object-contain"
               src={companySrc || "/placeholder.svg"}

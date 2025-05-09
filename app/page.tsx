@@ -198,7 +198,7 @@ export default function Home() {
                     <ArrowRight className="h-4 w-4 relative z-10" />
                     <span className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300"></span>
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={() => scrollToSection(sectionVideoRef)}
                     size="lg"
                     variant="outline"
@@ -217,27 +217,27 @@ export default function Home() {
                       </svg>
                     </span>
                     <span className="absolute inset-0 bg-background/0 group-hover:bg-primary/5 transition-colors duration-300"></span>
-                  </Button>
+                  </Button> */}
                 </div>
                 <div className="flex items-center gap-4 pt-4">
                   <div className="flex -space-x-3">
                     <Image
                       alt="User"
-                      width={10}
+                      width={100}
                       height={0}
                       className="rounded-full border-2 border-background h-10 w-10 object-cover"
                       src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
                     />
                     <Image
                       alt="User"
-                      width={10}
+                      width={100}
                       height={10}
                       className="rounded-full border-2 border-background h-10 w-10 object-cover"
                       src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
                     />
                     <Image
                       alt="User"
-                      width={10}
+                      width={100}
                       height={10}
                       className="rounded-full border-2 border-background h-10 w-10 object-cover"
                       src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
@@ -263,7 +263,7 @@ export default function Home() {
 
                   <div className="relative bg-gradient-to-br from-background to-background/80 backdrop-blur-sm border rounded-2xl shadow-xl p-2 md:p-3 max-w-[500px]">
                     <Image
-                      width={100}
+                      width={1000}
                       height={100}
                       alt="AI Career Coach Dashboard"
                       className="rounded-xl w-full"
@@ -622,8 +622,8 @@ export default function Home() {
                   </div>
                 </div>
                 <Image
-                  width={100}
-                  height={0}
+                  width={1000}
+                  height={100}
                   src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80"
                   alt="Career AI Dashboard"
                   className="w-full rounded-b-lg"
