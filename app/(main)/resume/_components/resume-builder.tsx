@@ -11,7 +11,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import html2pdf from "html2pdf.js/dist/html2pdf.min";
 import {
   AlertTriangle,
   Download,
@@ -68,6 +67,8 @@ import { ResumeTemplateSelector } from "./resume-template-selector";
 import { JobDescriptionMatcher } from "./job-description-matcher";
 import { resumeSchema } from "@/app/lib/schema";
 import { AiSuggestionCard } from "./ai-suggestions-card";
+import html2canvas from "html2canvas-pro";
+import jsPDF from "jspdf";
 
 interface Props {
   initialContent: string;
@@ -335,21 +336,45 @@ function ResumeBuilder({ initialContent }: Props) {
   // Generate PDF
   const generatePDF = async () => {
     setIsGenerating(true);
+
     try {
       const element = document.getElementById("resume-pdf");
-      if (!element) {
-        throw new Error("Resume PDF element not found");
+      if (!element) throw new Error("Resume PDF element not found");
+
+      // Define PDF dimensions (A4 = 210 x 297 mm)
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      // Use html2canvas with no scaling (or lower scale)
+      const canvas = await html2canvas(element, {
+        scale: 2, // try with scale: 1 or 1.5
+        useCORS: true,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgWidth = pdfWidth;
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      // Ensure it fits on one page (you can add multipage logic later if needed)
+      const y = 0;
+      if (imgHeight > pdfHeight) {
+        // If image height is more than page, shrink to fit height instead
+        const scaledWidth = (pdfHeight * imgProps.width) / imgProps.height;
+        pdf.addImage(
+          imgData,
+          "PNG",
+          (pdfWidth - scaledWidth) / 2,
+          0,
+          scaledWidth,
+          pdfHeight
+        );
+      } else {
+        pdf.addImage(imgData, "PNG", 0, y, imgWidth, imgHeight);
       }
 
-      const opt = {
-        margin: [15, 15],
-        filename: `${user?.fullName || "resume"}_${selectedTemplate}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      };
-
-      await html2pdf().set(opt).from(element).save();
+      pdf.save("resume.pdf");
       toast.success("PDF generated successfully!");
     } catch (error) {
       console.error("PDF generation error:", error);
@@ -962,11 +987,11 @@ function ResumeBuilder({ initialContent }: Props) {
           </Card>
 
           {/* Hidden element for PDF generation */}
-          <div className="hidden">
+          <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
             <div id="resume-pdf">
-              <ResumePreview
-                content={previewContent}
-                template={selectedTemplate}
+              <MDEditor.Markdown
+                source={previewContent}
+                style={{ background: "white", color: "black" }}
               />
             </div>
           </div>
