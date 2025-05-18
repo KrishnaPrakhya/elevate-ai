@@ -57,7 +57,11 @@ export default function CareerPlanGenerator({
     setPlan(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/chat", {
+      const backendUrl = process.env.NEXT_PUBLIC_FLASK_BACKEND_URL;
+      if (!backendUrl) {
+        throw new Error("FLASK_BACKEND_URL environment variable is not set");
+      }
+      const response = await fetch(backendUrl as string, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-
+import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,22 +103,21 @@ export default function CareerAdvisorChat({
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: userMessage.content,
-          clerkUserId: userProfile.clerkUserId,
-        }),
+      const backendUrl = process.env.NEXT_PUBLIC_FLASK_BACKEND_URL;
+      if (!backendUrl) {
+        throw new Error("FLASK_BACKEND_URL environment variable is not set");
+      }
+      console.log(backendUrl + "api/chat");
+      const response = await axios.post((backendUrl + "api/chat") as string, {
+        message: userMessage.content,
+        clerkUserId: userProfile.clerkUserId,
       });
-
-      if (!response.ok) {
+      console.log(response);
+      if (!response.data) {
         throw new Error("Failed to get response from career advisor");
       }
 
-      const data = await response.json();
+      const data = await response.data;
 
       const categoryKeywords = {
         job: [
@@ -266,7 +265,9 @@ export default function CareerAdvisorChat({
         <div className="flex gap-2">
           <Tabs
             value={activeView}
-            onValueChange={(v) => setActiveView(v as "chat" | "plan" | "profile")}
+            onValueChange={(v) =>
+              setActiveView(v as "chat" | "plan" | "profile")
+            }
             className="hidden md:block"
           >
             <TabsList>
@@ -358,7 +359,7 @@ export default function CareerAdvisorChat({
                           <ReactMarkdown
                             className="prose dark:prose-invert prose-sm max-w-none"
                             components={{
-                              a: ({  ...props }) => (
+                              a: ({ ...props }) => (
                                 <a
                                   {...props}
                                   className="text-primary hover:underline"
@@ -366,13 +367,13 @@ export default function CareerAdvisorChat({
                                   rel="noopener noreferrer"
                                 />
                               ),
-                              ul: ({  ...props }) => (
+                              ul: ({ ...props }) => (
                                 <ul
                                   {...props}
                                   className="list-disc pl-6 my-2"
                                 />
                               ),
-                              ol: ({  ...props }) => (
+                              ol: ({ ...props }) => (
                                 <ol
                                   {...props}
                                   className="list-decimal pl-6 my-2"
@@ -381,19 +382,19 @@ export default function CareerAdvisorChat({
                               li: ({ ...props }) => (
                                 <li {...props} className="my-1" />
                               ),
-                              h3: ({  ...props }) => (
+                              h3: ({ ...props }) => (
                                 <h3
                                   {...props}
                                   className="text-base font-semibold mt-4 mb-2"
                                 />
                               ),
-                              h4: ({  ...props }) => (
+                              h4: ({ ...props }) => (
                                 <h4
                                   {...props}
                                   className="text-sm font-semibold mt-3 mb-1"
                                 />
                               ),
-                              p: ({  ...props }) => (
+                              p: ({ ...props }) => (
                                 <p {...props} className="my-2" />
                               ),
                             }}
