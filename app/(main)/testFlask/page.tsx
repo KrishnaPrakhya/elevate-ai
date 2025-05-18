@@ -13,6 +13,7 @@ export default function Home() {
   return (
     <div>
       <h1>Next.js + Flask</h1>
+      <h1>Next.js + Flask</h1>
       <p>Data from Flask: {data ? data?.message : "Loading..."}</p>
     </div>
   );
