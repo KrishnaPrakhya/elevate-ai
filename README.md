@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ElevateAI - Intelligent Career Development Platform
 
-## Getting Started
+ElevateAI is a sophisticated career development platform that leverages AI agents and LangGraph to provide personalized career guidance, interview preparation, and document optimization.
 
-First, run the development server:
+## 🌟 Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **AI-Powered Career Guidance**: Get personalized career advice using intelligent agent-based conversations
+- **Smart Document Processing**: Optimize resumes and cover letters with ATS-friendly suggestions
+- **Interview Preparation**: Practice with role-specific questions and receive instant feedback
+- **Job Search Assistance**: Get tailored job recommendations based on your profile
+- **Career Planning**: Generate customized preparation schedules and development plans
+
+## 🛠️ Technical Architecture
+
+### Agent-Based System using LangGraph
+
+The platform implements a sophisticated multi-agent system using LangGraph, featuring:
+
+1. **Supervisor Agent**
+
+   - Analyzes user intent and orchestrates workflow
+   - Routes requests to specialized agents
+   - Manages conversation state and context
+
+2. **Specialized Agents**
+   - `document_improver`: Optimizes resumes and cover letters
+   - `job_searcher`: Finds relevant job opportunities
+   - `career_advisor`: Provides personalized career guidance
+   - `schedule_generator`: Creates custom preparation schedules
+   - `interview_preparer`: Generates interview questions and feedback
+
+### API Architecture
+
+Built with FastAPI, featuring:
+
+```python
+# Main agent workflow setup
+workflow = StateGraph(AgentState)
+
+# Agent nodes configuration
+workflow.add_node("supervisor", supervisor_agent)
+workflow.add_node("document_improver", document_improver)
+workflow.add_node("job_searcher", job_searcher)
+workflow.add_node("career_advisor", career_advisor)
+workflow.add_node("schedule_generator", schedule_generator)
+workflow.add_node("interview_preparer", interview_preparer)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Database Schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Uses SQLAlchemy with async support for efficient data management:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- User profiles
+- Resume and cover letter storage
+- Chat history
+- Industry insights
+- Assessment tracking
 
-## Learn More
+## 🚀 Key Technologies
 
-To learn more about Next.js, take a look at the following resources:
+- **Backend**: FastAPI with async support
+- **AI Framework**: LangGraph for agent orchestration
+- **Database**: PostgreSQL with async drivers
+- **ORM**: SQLAlchemy with async support
+- **AI Models**: Google's Gemini-1.5-flash
+- **Search Integration**: Tavily API for job searches
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💡 Intelligent Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Document Analysis
 
-## Deploy on Vercel
+```python
+async def improve_document(input_data: DocumentInput, doc_type: str = "resume"):
+    # AI-powered document improvement
+    # Focuses on ATS optimization, content improvements, and industry alignment
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Career Guidance
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```python
+async def provide_career_advice(input_data: CareerAdviceInput):
+    # Personalized career path recommendations
+    # Skill development suggestions
+    # Industry-specific insights
+```
+
+## 🔧 Setup and Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Set up environment variables:
+
+```bash
+GEMINI_API_KEY=your_api_key
+TAVILY_API_KEY=your_api_key
+DATABASE_URL=your_db_url
+```
+
+4. Run the application:
+
+```bash
+python server/app.py
+```
+
+## 🌐 API Endpoints
+
+### Chat Endpoint
+
+```python
+@app.post('/api/chat')
+async def chat_endpoint(request_data: ChatRequest):
+    # Handles user interactions
+    # Routes to appropriate agents
+    # Returns AI-generated responses
+```
+
+## 📝 License
+
+[Your License Here]
+
+---
+
+For more information or to contribute, please visit [Your Repository Link]
